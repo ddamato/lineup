@@ -1,5 +1,19 @@
 :root {
-  
+
+  /* https://color.adobe.com/aquila-pinks-and-blues-color-theme-10461839 */
+
+  --backgroundColor--primary: #010229;
+  --backgroundColor--secondary: #010229;
+  --onBackgroundColor--primary: #F68DFF;
+  --accentColor--primary: #4D2CC2;
+  --accentColor--secondary: #241772;
+  --onAccentColor--primary: #E80C7A;
+
+  --backgroundColor--preferred: #2A898F;
+  --backgroundColor--unpreferred: #4A5A73;
+
+  --onBackgroundColor--preferred: #FFFFFF;
+  --onBackgroundColor--unpreferred: #FFFFFF;
 }
 
 *,
@@ -14,4 +28,14 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  font-family: brandon-grotesque, sans-serif;
+  background-color: #000;
+  color: #fff;
+
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed */
 }

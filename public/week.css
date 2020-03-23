@@ -1,0 +1,100 @@
+.cells {
+	--col-amount: 8;
+	--col-width: 160px;
+	
+	list-style: none;
+	margin: 2rem auto;
+	padding: 0;
+	
+	display: grid;
+	grid-template-columns: repeat(var(--col-amount), var(--col-width));
+	width: calc(var(--col-amount) * var(--col-width));
+	position: relative;
+
+	border-top: 1px solid var(--accentColor--secondary);
+	border-left: 1px solid var(--accentColor--secondary);
+	border-bottom: 1px solid var(--accentColor--secondary);
+	background-color: var(--backgroundColor--primary);
+  color: var(--onBackgroundColor--primary);
+}
+
+.cells > div {
+	border-top: 1px solid var(--accentColor--secondary);
+	border-right: 1px solid var(--accentColor--secondary);
+	padding: 12px;
+	z-index: 4;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.cells > div[data-time]:after {
+	content: attr(data-time);
+	background: var(--backgroundColor--primary);
+	position: absolute;
+	top: -50%;
+	z-index: 1;
+	padding: 0 8px;
+	pointer-events: none;
+}
+
+/* (bottom row) number must match the --col-amount */
+.cells > .null {
+	border-bottom: none;
+	border-right: none;
+	pointer-events: none;
+}
+
+/* (th) number must match the --col-amount */
+.cells > div:nth-child(-n+8) {
+	font-size: 120%;
+	font-weight: bolder;
+	position: sticky;
+	top: 0;
+	z-index: 5;
+	background: var(--backgroundColor--secondary);
+	border-bottom: 2px solid var(--accentColor--secondary);
+	margin-bottom: 1.5rem;
+}
+
+/* (fixed side) number must match the --col-amount */
+.cells > div:nth-child(8n+1) {
+	position: sticky;
+	left: 0;
+	z-index: 5;
+	border-right: 2px solid var(--accentColor--secondary);
+}
+
+.cells > div:first-child {
+	background: var(--backgroundColor--secondary);
+	z-index: 6;
+}
+
+.block {
+	z-index: 4;
+	position: absolute;
+	width: var(--col-width);
+	padding: .25em .5em;
+	background-color: var(--accentColor--primary);
+	color: white;
+	top: 200px;
+	left: 160px;
+	border-radius: 4px;
+	line-height: 1;
+}
+
+.block.focused:after {
+	content: "";
+	position: absolute;
+	border: 2px solid var(--onAccentColor--primary);
+	height: 100%;
+	width: 100%;
+	top: 0;
+	left: 0;
+	border-radius: inherit;
+}
+
+[data-start][data-end]:before {
+	content: attr(data-start) "-" attr(data-end);
+	font-size: .7em;
+}
