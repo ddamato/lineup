@@ -1,7 +1,5 @@
 import css from './week.css';
-
-const divisions = 30; // minutes
-const DAYS_PER_WEEK = 7;
+import lib from '../lib.js';
 
 class Week extends HTMLElement {
   constructor() {
@@ -15,7 +13,7 @@ class Week extends HTMLElement {
         <button class="copy">Copy JSON</button>
       </header>
       <div class="week">
-        <lineup-weekday legend divisions="${divisions}"></lineup-weekday>
+        <lineup-weekday legend divisions="${lib.MINUTE_DIVISIONS}"></lineup-weekday>
       </div>
     `;
 
@@ -24,12 +22,12 @@ class Week extends HTMLElement {
     this.$copy = this.shadowRoot.querySelector('.copy');
     this.availability = [];
 
-    for (let i = 0; i < DAYS_PER_WEEK; i++) {
+    for (let i = 0; i < lib.DAYS_PER_WEEK; i++) {
       const weekday = document.createElement('lineup-weekday');
       weekday.index = i;
-      weekday.divisions = divisions;
+      weekday.divisions = lib.MINUTE_DIVISIONS;
 
-      if (i === DAYS_PER_WEEK - 1) {
+      if (i === lib.DAYS_PER_WEEK - 1) {
         weekday.lastday = true;
       }
 

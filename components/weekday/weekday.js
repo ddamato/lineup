@@ -1,7 +1,5 @@
 import css from './weekday.css';
-
-const HOURS_PER_DAY = 24;
-const MINUTES_PER_HOUR = 60;
+import lib from '../lib.js';
 
 class Weekday extends HTMLElement {
   constructor() {
@@ -70,14 +68,8 @@ class Weekday extends HTMLElement {
 
   connectedCallback() {
     this._setHeading();
-    this._times = [];
+    this._times = lib.times(this.divisions);
     this._availability = [];
-    for (let minutes = 0; minutes <= HOURS_PER_DAY * MINUTES_PER_HOUR; minutes += this.divisions) {
-      this._times.push({
-        startTime: minutesISOString(minutes),
-        endTime: minutesISOString(minutes + this.divisions),
-      });
-    }
     return this._renderTimes();
   }
 
@@ -89,17 +81,21 @@ class Weekday extends HTMLElement {
     if (ev.code === 'Space') {
       ev.preventDefault();
       const $span = this.shadowRoot.activeElement;
-      const id = Number($span.dataset.id);
-      this._availability[id].tentative = !this._availability[id].tentative;
-      return this._renderAvailability();
+      if ($span) {
+        const id = Number($span.dataset.id);
+        this._availability[id].tentative = !this._availability[id].tentative;
+        return this._renderAvailability();
+      }
     }
 
     if (ev.code === 'Backspace' || ev.code === 'Delete') {
       ev.preventDefault();
       const $span = this.shadowRoot.activeElement;
-      const id = Number($span.dataset.id);
-      this._availability.splice(id, 1);
-      return this._renderAvailability();
+      if ($span) {
+        const id = Number($span.dataset.id);
+        this._availability.splice(id, 1);
+        return this._renderAvailability();
+      }
     }
   }
 
@@ -269,7 +265,7 @@ class Weekday extends HTMLElement {
   }
 
   get divisions() {
-    return Number(this.getAttribute('divisions'));
+    return Number(this.getAttribute('divisions')) || lib.MINUTE_DIVISIONS;
   }
 
   set divisions(val) {
@@ -279,16 +275,15 @@ class Weekday extends HTMLElement {
 
   get availability() {
     if (!this.legend) {
-      return this._availability.slice();
+      return this._availability.slice().map(({ startTime, endTime, tentative }) => {
+        return {
+          startTime: lib.parseTime(startTime),
+          endTime: lib.parseTime(endTime),
+          tentative,
+        }
+      });
     }
     return [];
-  }
-
-  set availability(availability) {
-    if (!this.legend) {
-      this._availability = [...new Set(this._availability.concat(availability))];
-      this._renderAvailability();
-    }
   }
 
   get legend() {
@@ -315,21 +310,6 @@ function getWeekdayName(index) {
   const d = new Date();
   d.setDate((d.getDate() - d.getDay()) + index);
   return d.toLocaleString(window.navigator.language || 'en-us', {weekday: 'long'});
-}
-
-function getMidnight() {
-  const d = new Date();
-  d.setMilliseconds(0);
-  d.setSeconds(0);
-  d.setMinutes(0);
-  d.setHours(0);
-  return d;
-}
-
-function minutesISOString(minutes) {
-  const midnight = getMidnight();
-  midnight.setMinutes(minutes);
-  return midnight.toISOString();
 }
 
 function isoToLocale(iso) {
