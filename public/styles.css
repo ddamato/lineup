@@ -2,18 +2,6 @@
 
   /* https://color.adobe.com/aquila-pinks-and-blues-color-theme-10461839 */
 
-  --backgroundColor--primary: #010229;
-  --backgroundColor--secondary: #010229;
-  --onBackgroundColor--primary: #F68DFF;
-  --accentColor--primary: #4D2CC2;
-  --accentColor--secondary: #241772;
-  --onAccentColor--primary: #E80C7A;
-
-  --backgroundColor--preferred: #2A898F;
-  --backgroundColor--unpreferred: #4A5A73;
-
-  --onBackgroundColor--preferred: #FFFFFF;
-  --onBackgroundColor--unpreferred: #FFFFFF;
 }
 
 *,

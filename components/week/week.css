@@ -1,0 +1,38 @@
+:host {
+  --cellHeight: 24px;
+  --cellWidth: 160px;
+  --tableBorderColor: #241772;
+  --tableBackground: #000;
+  --focusedBorderColor: #fff;
+  --availableBackground: #2A898F;
+  --tentativeBackground: #4A5A73;
+
+  box-sizing: border-box;
+  text-align: center;
+  display: block;
+  margin: 1rem 0;
+}
+
+:host * {
+  box-sizing: border-box;
+}
+
+.days {
+  display: flex;
+  position: sticky;
+  top: 0;
+  background-color: var(--tableBackground);
+}
+
+.timezone, .th {
+  display: block;
+  width: var(--cellWidth);
+  flex: 1 0 auto;
+  text-align: center;
+}
+
+.week {
+  display: inline-flex;
+  padding: 1rem;
+  border: 1px solid var(--tableBorderColor);
+}

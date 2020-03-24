@@ -1,0 +1,80 @@
+:host {
+  display: block;
+  box-sizing: border-box;
+}
+
+:host * {
+  box-sizing: border-box;
+}
+
+:host([lastday]) .cell:not(:last-child) {
+  border-right: 1px solid var(--tableBorderColor);
+}
+
+:host([legend]) .cell:before {
+  display: block;
+  background-color: var(--tableBackground);
+  padding: 0 1rem;
+  transform: translateY(-50%);
+}
+
+
+:host([legend]) .cell:before {
+  content: attr(data-start);
+}
+
+.weekday {
+  position: relative;
+}
+
+.heading {
+  text-align: center;
+  position: sticky;
+  top: 0;
+  background-color: var(--tableBackground);
+  z-index: 1;
+  padding: 1rem 0;
+}
+
+.times {
+  padding: var(--cellHeight) 0 0;
+  width: var(--cellWidth);
+}
+
+.cell {
+  height: var(--cellHeight);
+  border-top: 1px solid var(--tableBorderColor);
+  border-left: 1px solid var(--tableBorderColor);
+  display: flex;
+  justify-content: center;
+}
+
+.cell:last-child {
+  border-left: none;
+  pointer-events: none;
+}
+
+.availability {
+  display: contents;
+}
+
+.available {
+  position: absolute;
+  background-color: var(--availableBackground);
+  border: 2px solid transparent;
+  border-radius: 4px;
+  width: 100%;
+  left: 0;
+}
+
+.available[data-start][data-end]:before {
+  content: attr(data-start) "-" attr(data-end);
+  display: block;
+  font-size: .7em;
+  text-align: left;
+  padding: 2px 6px;
+}
+
+.available.focused {
+  border: 2px solid var(--focusedBorderColor);
+}
