@@ -51,12 +51,11 @@ class Weekday extends HTMLElement {
       mousedown: this._onMousedown.bind(this),
       mousemove: this._onMousemove.bind(this),
       mouseup: this._onMouseup.bind(this),
-      mouseleave: this._onMouseup.bind(this),
-      keyup: this._onKeyup.bind(this),
+      mouseleave: this._onMouseup.bind(this)
     };
 
     this.$weekday.addEventListener('mousedown', this._listeners.mousedown);
-    this.$weekday.addEventListener('keyup', this._listeners.keyup);
+    window.addEventListener('keydown', this._onKeydown.bind(this));
   }
 
   _removeListeners() {
@@ -82,8 +81,13 @@ class Weekday extends HTMLElement {
     return this._renderTimes();
   }
 
-  _onKeyup(ev) {
+  _onKeydown(ev) {
+    if (this.legend) {
+      return;
+    }
+
     if (ev.code === 'Space') {
+      ev.preventDefault();
       const $span = this.shadowRoot.activeElement;
       const id = Number($span.dataset.id);
       this._availability[id].tentative = !this._availability[id].tentative;
@@ -91,6 +95,7 @@ class Weekday extends HTMLElement {
     }
 
     if (ev.code === 'Backspace' || ev.code === 'Delete') {
+      ev.preventDefault();
       const $span = this.shadowRoot.activeElement;
       const id = Number($span.dataset.id);
       this._availability.splice(id, 1);
@@ -205,6 +210,8 @@ class Weekday extends HTMLElement {
         }
       }
     });
+
+    this.dispatchEvent(new CustomEvent('updatedavailability', { detail: this.availability }));
   }
 
   _scrollToTime() {

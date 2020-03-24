@@ -4,17 +4,47 @@
   --tableBorderColor: #241772;
   --tableBackground: #000;
   --focusedBorderColor: #fff;
-  --availableBackground: #2A898F;
-  --tentativeBackground: #4A5A73;
+  --availableBackground: #168C34;
+  --tentativeBackground: #162D59;
 
   box-sizing: border-box;
   text-align: center;
   display: block;
   margin: 1rem 0;
+
+  background-color: var(--backgroundColor, #000);
+  color: var(--foregroundColor, #fff);
 }
 
 :host * {
   box-sizing: border-box;
+}
+
+.header {
+  text-align: left;
+  display: flex;
+  padding: 1rem;
+  align-items: center;
+}
+
+.json {
+  all: initial;
+  color: inherit;
+  font: inherit;
+  font-family: monospace;
+  text-overflow: ellipsis;
+  border: 1px solid;
+  margin: 0 1rem;
+  padding: 1rem;
+  flex: 1;
+}
+
+.copy {
+  background-color: var(--tableBorderColor);
+  color: inherit;
+  border: 0;
+  align-self: stretch;
+  padding: 0 1rem;
 }
 
 .days {

@@ -1,7 +1,6 @@
 :root {
-
-  /* https://color.adobe.com/aquila-pinks-and-blues-color-theme-10461839 */
-
+  --backgroundColor: #000;
+  --foregroundColor: #fff;
 }
 
 *,
@@ -17,8 +16,8 @@ body {
   font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   font-family: brandon-grotesque, sans-serif;
-  background-color: #000;
-  color: #fff;
+  background-color: var(--backgroundColor);
+  color: var(--foregroundColor);
 
   -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none; /* Safari */

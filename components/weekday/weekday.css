@@ -69,6 +69,7 @@
   font-size: .7em;
   padding: 5px;
   line-height: 1;
+  z-index: 1;
 }
 
 .available.tentative {
