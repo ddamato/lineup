@@ -11,7 +11,7 @@ class Week extends HTMLElement {
       <style type="text/css">${css}</style>
       <header class="header">
         <label>Lineup Availability JSON</label>
-        <input type="text" class="json"/>
+        <textarea class="json" readonly></textarea>
         <button class="copy">Copy JSON</button>
       </header>
       <div class="week">

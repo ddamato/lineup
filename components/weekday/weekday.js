@@ -258,6 +258,9 @@ class Weekday extends HTMLElement {
   }
 
   get index() {
+    if (this.legend) {
+      return -1;
+    }
     return Number(this.getAttribute('index'));
   }
 
@@ -297,6 +300,13 @@ class Weekday extends HTMLElement {
       this.setAttribute('legend', '');
     } else {
       this.removeAttribute('legend');
+    }
+  }
+
+  clearAvailability() {
+    if (!this.legend) {
+      this._availability = [];
+      this._renderAvailability();
     }
   }
 }
