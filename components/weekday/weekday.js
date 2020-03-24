@@ -52,9 +52,11 @@ class Weekday extends HTMLElement {
       mousemove: this._onMousemove.bind(this),
       mouseup: this._onMouseup.bind(this),
       mouseleave: this._onMouseup.bind(this),
+      keyup: this._onKeyup.bind(this),
     };
 
     this.$weekday.addEventListener('mousedown', this._listeners.mousedown);
+    this.$weekday.addEventListener('keyup', this._listeners.keyup);
   }
 
   _removeListeners() {
@@ -80,13 +82,25 @@ class Weekday extends HTMLElement {
     return this._renderTimes();
   }
 
-  _onMousedown(ev) {
-
-    if (this._focusedAvailability) {
-      this._focusedAvailability.focused = false;
-      this._focusedAvailability = null;
+  _onKeyup(ev) {
+    if (ev.code === 'Space') {
+      const $span = this.shadowRoot.activeElement;
+      const id = Number($span.dataset.id);
+      this._availability[id].tentative = !this._availability[id].tentative;
+      return this._renderAvailability();
     }
 
+    if (ev.code === 'Backspace' || ev.code === 'Delete') {
+      const $span = this.shadowRoot.activeElement;
+      const id = Number($span.dataset.id);
+      this._availability.splice(id, 1);
+      return this._renderAvailability();
+    }
+  }
+
+  _onMousedown(ev) {
+
+    ev.preventDefault();
     this.$weekday.addEventListener('mousemove', this._listeners.mousemove);
     this.$weekday.addEventListener('mouseleave', this._listeners.mouseleave);
     this.$weekday.addEventListener('mouseup', this._listeners.mouseup);
@@ -97,14 +111,15 @@ class Weekday extends HTMLElement {
     // entering new cell
     if (ev.target.classList.contains('cell')) {
       const { startTime, endTime } = this._times[id];
-      this._focusedAvailability = { startTime, endTime, tentative: false, focused: true };
+      this._focusedAvailability = { startTime, endTime, tentative: false };
       this._availability.push(this._focusedAvailability);
       return this._renderAvailability();
     } 
     
     // entering existing availability
-    if (ev.target.classList.contains('availability')) {
+    if (ev.target.classList.contains('available')) {
       this._focusedAvailability = this._availability[id];
+      return this._renderAvailability();
     }
   }
 
@@ -138,6 +153,7 @@ class Weekday extends HTMLElement {
     this.$weekday.removeEventListener('mousemove', this._listeners.mousemove);
     this.$weekday.removeEventListener('mouseleave', this._listeners.mouseleave);
     this.$weekday.removeEventListener('mouseup', this._listeners.mouseup);
+    this._focusedAvailability = null;
   }
 
   _renderTimes() {
@@ -170,7 +186,7 @@ class Weekday extends HTMLElement {
       const $endCell = this.$times.children[endIndex];
 
       if ($startCell && $endCell) {
-        const { startTime, endTime, tentative, focused } = availability;
+        const { startTime, endTime, tentative } = availability;
         const $span = document.createElement('span');
         const height = $endCell.offsetTop - $startCell.offsetTop + $endCell.offsetHeight;
         $span.style.top = `${$startCell.offsetTop}px`;
@@ -178,11 +194,15 @@ class Weekday extends HTMLElement {
         $span.dataset.start = isoToLocale(startTime);
         $span.dataset.end = isoToLocale(endTime);
         $span.dataset.id = i;
+        $span.tabIndex = 0;
         $span.classList.add('available');
         $span.classList.toggle('tentative', tentative);
-        $span.classList.toggle('focused', focused);
+        $span.title = 'Space: toggle tentative. Delete: remove availability';
 
         this.$availability.appendChild($span);
+        if (this._focusedAvailability === availability) {
+          $span.focus();
+        }
       }
     });
   }
