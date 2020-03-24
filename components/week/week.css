@@ -36,3 +36,9 @@
   padding: 1rem;
   border: 1px solid var(--tableBorderColor);
 }
+
+.week > :first-child {
+  position: sticky;
+  left: 0;
+  z-index: 1;
+}
